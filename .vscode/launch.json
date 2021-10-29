@@ -13,7 +13,7 @@
             "mainClass": "${workspaceRoot}/bin/Author.class",
             "startupClass": "${workspaceRoot}${file}",
             "sourcePath": ["${workspaceRoot}/lib"],   // Indicates where your source (.java) files are
-            "classpath": ["${workspaceRoot}/build/classes"],    // Indicates the location of your .class files
+            "classpath": ["${workspaceRoot}/build"],    // Indicates the location of your .class files
             "options": [],                             // Additional options to pass to the java executable
             "args": "${workspaceRoot}/lib/const11.txt 100"                                // Command line arguments to pass to the startup class
         }
