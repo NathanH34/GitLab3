@@ -1,2 +1,2 @@
 VocabTest.java
- test.java.VocabTest
+ VocabTest

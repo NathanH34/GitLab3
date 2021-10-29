@@ -1,4 +1,4 @@
 Author.java
- main.java.Author
+ Author
 Vocabulary.java
- main.java.Vocabulary
+ Vocabulary

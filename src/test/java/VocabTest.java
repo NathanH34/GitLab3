@@ -1,12 +1,9 @@
-package test.java;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
 import org.junit.jupiter.api.Test;
-
-import main.java.Vocabulary;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat; 
