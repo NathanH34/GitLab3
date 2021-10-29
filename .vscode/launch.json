@@ -8,14 +8,14 @@
             "externalConsole": true,                //user input dosen't work if set it to false 😦
             "stopOnEntry": false,       //Will allow user to enter args before program if true
             "preLaunchTask": "build",                 // Runs the task created above before running this configuration
-            "jdkPath": "${env:JAVA_HOME}/bin",        // You need to set JAVA_HOME enviroment variable
+            "jdkPath": "${env:JAVA_HOME}/build",        // You need to set JAVA_HOME enviroment variable
             "cwd": "${workspaceRoot}",      //Current working directory
-            "mainClass": "${workspaceRoot}/bin/Author.class",
+            "mainClass": "${workspaceRoot}/build/classes/main/Author.class",
             "startupClass": "${workspaceRoot}${file}",
-            "sourcePath": ["${workspaceRoot}/lib"],   // Indicates where your source (.java) files are
+            "sourcePath": ["${workspaceRoot}/src"],   // Indicates where your source (.java) files are
             "classpath": ["${workspaceRoot}/build"],    // Indicates the location of your .class files
             "options": [],                             // Additional options to pass to the java executable
-            "args": "${workspaceRoot}/lib/const11.txt 100"                                // Command line arguments to pass to the startup class
+            "args": "${workspaceRoot}/const11.txt 100"                                // Command line arguments to pass to the startup class
         }
 
     ],
