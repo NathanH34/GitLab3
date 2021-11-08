@@ -1,9 +1,0 @@
--classpath '/home/nhoeg/cs350/GitLab1/build/classes/java/main:/home/nhoeg/cs350/GitLab1/build/resources/main'
--d '/home/nhoeg/cs350/GitLab1/build/docs/javadoc'
--doctitle 'GitLab1 API'
--link 'https://docs.oracle.com/javase/8/docs/api/'
--link 'gradle/javadocs/jdk'
--quiet 
--windowtitle 'GitLab1 API'
-'/home/nhoeg/cs350/GitLab1/src/main/java/Author.java'
-'/home/nhoeg/cs350/GitLab1/src/main/java/Vocabulary.java'
