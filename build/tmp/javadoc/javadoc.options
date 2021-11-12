@@ -1,9 +1,8 @@
--classpath '/home/nhoeg/cs350/GitLab1/build/classes/java/main:/home/nhoeg/cs350/GitLab1/build/resources/main'
--d '/home/nhoeg/cs350/GitLab1/build/docs/javadoc'
+-classpath '/home/nhoeg/cs350/reportDeployment/build/classes/java/main:/home/nhoeg/cs350/reportDeployment/build/resources/main'
+-d '/home/nhoeg/cs350/reportDeployment/build/docs/javadoc'
 -doctitle 'GitLab1 API'
--link 'https://docs.oracle.com/javase/8/docs/api/'
--link 'gradle/javadocs/jdk'
+-notimestamp 
 -quiet 
 -windowtitle 'GitLab1 API'
-'/home/nhoeg/cs350/GitLab1/src/main/java/Author.java'
-'/home/nhoeg/cs350/GitLab1/src/main/java/Vocabulary.java'
+'/home/nhoeg/cs350/reportDeployment/src/main/java/Author.java'
+'/home/nhoeg/cs350/reportDeployment/src/main/java/Vocabulary.java'
