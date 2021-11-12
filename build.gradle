@@ -28,6 +28,8 @@ javadoc {
    options.with {
         //links 'https://docs.oracle.com/en/java/javase/11/docs/api/', 'gradle/javadocs/jdk'
    }
+   mkdir 'build/tmp/website'
+   mkdir 'build/tmp/website/assets'
    failOnError = false;
 }
 
@@ -36,6 +38,7 @@ check.dependsOn htmlDependencyReport
 
 task reports (dependsOn: ['javadoc', 'check']) {
     description 'Generate all reports for this project'
+    
 }
 
 task copyJDocs (type: Copy) {
@@ -56,7 +59,7 @@ task copyJbakeTemplates (type: Copy) {
 }
 
 task buildHomePage (dependsOn: copyJbakeTemplates) {
-	 inputs.files ( 'build/tmp/website/content/home0.md', '../README.md')
+	 inputs.files ( 'build/tmp/website/content/home0.md', './README.md') //removed extra period in '../README.md'
 	 outputs.file ( 'build/tmp/website/content/home.md' )
 	 doLast  {
 	     outputs.files.singleFile.withOutputStream { out ->
@@ -67,7 +70,7 @@ task buildHomePage (dependsOn: copyJbakeTemplates) {
 }
 
 jbake {
-	 srcDirName = "build/tmp/website"
+	    srcDirName = "build/tmp/website"
 }
 
 task setupWebsite (dependsOn: ['buildHomePage', 'copyReports', 'copyJDocs']){
