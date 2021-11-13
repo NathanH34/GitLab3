@@ -78,10 +78,10 @@ task updateGHPages (dependsOn: ['copyReports', 'copyDocs']) {
     doLast {
         def pagesDir = "$buildDir/gh-pages"
         def grgit = git.open {
-            dir = pagesDir + "/.git"
+            dir = pagesDir
         }
-        grgit.add (update: false, patterns: ['reports/'])
-        grgit.add (update: true, patterns: ['reports/'])
+        grgit.add (patterns: ['docs/'])
+        grgit.add (patterns: ['reports/'])
         grgit.commit {
             message = "Updating web pages"
         }
