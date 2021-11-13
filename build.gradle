@@ -40,23 +40,6 @@ task reports (dependsOn: ['javadoc', 'check']) {
     description 'Generate all reports for this project'
 }
 
-task copyJDocs (type: Copy) {
-    from 'build/docs'
-    into 'build/tmp/website/assets'
-    dependsOn 'reports'
-}
-
-task copyReports (type: Copy) {
-    from 'build/reports'
-    into 'build/tmp/website/assets'
-    dependsOn 'reports'
-}
-
-task copyJbakeTemplates (type: Copy) {
-    from 'src/jbake'
-    into 'build/tmp/website'
-}
-
 task clonePages() {
     doLast {
         mkdir 'build/gh-pages'
@@ -77,12 +60,19 @@ task clonePages() {
     }
 }
 
-task copyghReports (type: Copy, dependsOn: ['bake', 'clonePages']) {
-    from "$buildDir/tmp/website"
-    into "$buildDir/gh-pages"
+task copyDocs (type: Copy){
+    from "$buildDir/docs"
+    into "$buildDir/gh-pages/docs"
+    dependsOn 'reports', 'clonePages'
 }
 
-task updateGHPages (dependsOn: 'copyghReports') {
+task copyReports (type: Copy) {
+    from "$buildDir/reports"
+    into "$buildDir/gh-pages/reports"
+    dependsOn 'reports', 'clonePages'
+}
+
+task updateGHPages (dependsOn: ['copyReports', 'copyDocs']) {
     group = "Reporting"
     description  'Copies reports to the gh-pages branch in preparation for a future push to GitHub'
     doLast {
@@ -99,24 +89,9 @@ task updateGHPages (dependsOn: 'copyghReports') {
     }
 }
 
-task buildHomePage (dependsOn: copyJbakeTemplates) {
-	 inputs.files ( 'build/tmp/website/content/home0.md', './README.md') //removed extra period in '../README.md'
-	 outputs.file ( 'build/tmp/website/content/home.md' )
-	 doLast  {
-	     outputs.files.singleFile.withOutputStream { out ->
-	         for ( file in inputs.files ) file.withInputStream {
-		 	     out << it << '\n' }
-	    }
-	 }
+task deployReports (dependsOn: 'updateGHPages') {
+    description 'Deploy reports to website'
 }
 
-jbake {
-	    srcDirName = "build/tmp/website"
-}
-
-task setupWebsite (dependsOn: ['buildHomePage', 'copyReports', 'copyJDocs']){
-}
-
-bake.dependsOn "setupWebsite"
 
 build.dependsOn javadoc
