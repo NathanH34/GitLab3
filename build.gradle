@@ -38,13 +38,12 @@ check.dependsOn htmlDependencyReport
 
 task reports (dependsOn: ['javadoc', 'check']) {
     description 'Generate all reports for this project'
-    
 }
 
 task copyJDocs (type: Copy) {
     from 'build/docs'
     into 'build/tmp/website/assets'
-    dependsOn 'javadoc'
+    dependsOn 'reports'
 }
 
 task copyReports (type: Copy) {
@@ -56,6 +55,48 @@ task copyReports (type: Copy) {
 task copyJbakeTemplates (type: Copy) {
     from 'src/jbake'
     into 'build/tmp/website'
+}
+
+task clonePages() {
+    doLast {
+        mkdir 'build/gh-pages'
+        def thisRepo = rootProject.projectDir.toString()
+        def pagesDir = "$buildDir/gh-pages"
+        project.delete {
+            delete pagesDir
+        }
+        def grgit = git.clone {
+            dir = pagesDir
+            uri = thisRepo
+            bare = false
+            refToCheckout = 'gh-pages'
+        }
+        grgit.checkout {
+            branch = 'gh-pages'
+        }
+    }
+}
+
+task copyghReports (type: Copy, dependsOn: ['bake', 'clonePages']) {
+    from "$buildDir/tmp/website"
+    into "$buildDir/gh-pages"
+}
+
+task updateGHPages (dependsOn: 'copyghReports') {
+    group = "Reporting"
+    description  'Copies reports to the gh-pages branch in preparation for a future push to GitHub'
+    doLast {
+        def pagesDir = "$buildDir/gh-pages"
+        def grgit = git.open {
+            dir = pagesDir + "/.git"
+        }
+        grgit.add (update: false, patterns: ['reports/'])
+        grgit.add (update: true, patterns: ['reports/'])
+        grgit.commit {
+            message = "Updating web pages"
+        }
+        grgit.push {}
+    }
 }
 
 task buildHomePage (dependsOn: copyJbakeTemplates) {
