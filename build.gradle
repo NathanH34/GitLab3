@@ -2,7 +2,6 @@ plugins {
    id 'java'
    id "org.xbib.gradle.plugin.git" version "2.0.0"
    id "org.jbake.site" version "5.5.0" //jbake plugin
-   id 'project-reports' //htmlDependencyReport
 }
 
 repositories {
@@ -24,6 +23,11 @@ test {
     ignoreFailures = true
 }
 
+java{
+    sourceCompatibility = JavaVersion.toVersion(11)
+    targetCompatibility = JavaVersion.toVersion(11)
+}
+
 javadoc {
    options.with {
         //links 'https://docs.oracle.com/en/java/javase/11/docs/api/', 'gradle/javadocs/jdk'
@@ -33,14 +37,11 @@ javadoc {
    failOnError = false;
 }
 
-test.ignoreFailures=true
-check.dependsOn htmlDependencyReport
-
 task reports (dependsOn: ['javadoc', 'check']) {
     description 'Generate all reports for this project'
 }
 
-task clonePages() {
+task clonePages(dependsOn: 'reports') {
     doLast {
         mkdir 'build/gh-pages'
         def thisRepo = rootProject.projectDir.toString()
@@ -60,19 +61,18 @@ task clonePages() {
     }
 }
 
-task copyDocs (type: Copy){
-    from "$buildDir/docs"
-    into "$buildDir/gh-pages/docs"
-    dependsOn 'reports', 'clonePages'
+task copyReports (type: Copy, dependsOn: ['clonePages']){
+    copy{
+        from "$buildDir/docs"
+        into "$buildDir/gh-pages/docs"
+    }
+    copy{
+        from "$buildDir/reports"
+        into "$buildDir/gh-pages/reports"
+    }
 }
 
-task copyReports (type: Copy) {
-    from "$buildDir/reports"
-    into "$buildDir/gh-pages/reports"
-    dependsOn 'reports', 'clonePages'
-}
-
-task updateGHPages (dependsOn: ['copyReports', 'copyDocs']) {
+task updateGHPages (dependsOn: 'copyReports') {
     group = "Reporting"
     description  'Copies reports to the gh-pages branch in preparation for a future push to GitHub'
     doLast {
@@ -92,6 +92,3 @@ task updateGHPages (dependsOn: ['copyReports', 'copyDocs']) {
 task deployReports (dependsOn: 'updateGHPages') {
     description 'Deploy reports to website'
 }
-
-
-build.dependsOn javadoc
