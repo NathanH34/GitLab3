@@ -21,10 +21,10 @@ jobs:
     - name: Build and test
       run: ./gradlew build
     - name: Copy reports into gh-pages
-      run: ./gradlew copyReports
+      run: ./gradlew copyReportsWithoutClonePages
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.5
       with:
         branch: gh-pages # The branch the action should deploy to.
-        folder: build/gh-pages # The folder the action should deploy.
+        folder: build/tmp/gh-pages # The folder the action should deploy.
         clean: false
