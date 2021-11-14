@@ -16,6 +16,7 @@
 #Ignore build and bin files
 ./build
 ./bin
+./.gradle
 
 #Ignore .project and .classpath
 *.project
